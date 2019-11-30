@@ -1,0 +1,18 @@
+﻿  ComFileBin.cpp
+  ComFileText.cpp
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\ComFileText.cpp(70,41): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\ComFileText.cpp(93,32): warning C4244: 'argument': conversion from '__int64' to 'int', possible loss of data
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\ComFileText.cpp(301,12): warning C4244: 'argument': conversion from '__int64' to 'long', possible loss of data
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\ComFileText.cpp(325,21): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+  Huffman.cpp
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\ComFileText.cpp(347,31): warning C4244: 'argument': conversion from '__int64' to 'int', possible loss of data
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\Huffman.cpp(54,19): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\Huffman.cpp(55,20): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\Huffman.cpp(71,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\Huffman.cpp(146,19): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\Huffman.cpp(147,20): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\Huffman.cpp(156,11): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+  main.cpp
+  Generating Code...
+C:\Users\Admin\Desktop\TestBinary\CompressFileText\CompressFileText\Huffman.cpp(165,20): warning C4018: '<': signed/unsigned mismatch
+  CompressFileText.vcxproj -> C:\Users\Admin\Desktop\TestBinary\CompressFileText\Debug\CompressFileText.exe
