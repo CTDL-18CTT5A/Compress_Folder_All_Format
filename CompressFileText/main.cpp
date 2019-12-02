@@ -29,7 +29,7 @@ int main()
 
 	//EncodeFolder();
 	
-	ExportFolder();
+	//ExportFolder();
 
 	return 0;
 

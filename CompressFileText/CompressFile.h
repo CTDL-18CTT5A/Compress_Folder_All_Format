@@ -42,7 +42,7 @@ void EncodeMultiFile(char* filename);
 
 void ExportFile();
 
-void ExportFile(char *filename);
+void ExportFile(string filename);
 
 
 void EncodeFolder();
