@@ -38,6 +38,9 @@ void Decode(FILE* in, FILE* out);
 
 void EncodeFile();
 
+void EncodeFile(string linkFile);
+
+
 void EncodeMultiFile(char* filename);
 
 void ExportFile();
@@ -45,11 +48,9 @@ void ExportFile();
 void ExportFile(string filename);
 
 
-void EncodeFolder();
 
 void DecodeFolder(FILE* in, FILE* out, int vtLE);
 
-void ExportFolder();
 
 //Suport
 

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include"CompressFile.h"
+#include"CompressFolder.h"
 #include <stdio.h>
 #include<iostream>
 #include<vector>
@@ -484,6 +485,40 @@ void EncodeFile()
 }
 
 
+
+
+void EncodeFile(string linkFile)
+{
+
+	string DuoiFile;
+	int pos = linkFile.find(".") + 1;
+	DuoiFile = linkFile.substr(pos, linkFile.size());
+
+	//Lay ra ten cua Path
+	string Namefile = subFileName(linkFile);
+
+	
+
+	FILE* file = fopen(ToCharArray(linkFile), "rb");
+	FILE* fileCompresss = fopen(ToCharArray(Namefile+".Ozip"), "wb");
+	fprintf(fileCompresss, "1");
+	HuffData data;
+	if (DuoiFile == "exe")
+	{
+		data = ReadFileExe(file, ToCharArray(linkFile + "." + DuoiFile));
+	}
+	else
+	{
+		data = ReadFileBin(file);
+	}
+	cout << "read complete" << endl;
+	HuffMap map;
+	int size = strlen(data.s);
+	HuffmanCompress(file, fileCompresss, map, data, size, ToCharArray(linkFile));
+}
+
+
+
 void ExportFile()
 {
 	string namefile;
@@ -515,14 +550,12 @@ void ExportFile(string filename)
 {
 
 
-	FILE* header = fopen(ToCharArray(filename + ".huf"), "rb");
+	FILE* header = fopen(ToCharArray(filename), "rb");
 
 
-	//bo qua 2 byte dau tien trong file neu no la file dung mot minh
-	char pp;
-	fread(&pp, 1, 1, header);
-	fread(&pp, 1, 1, header);
-
+	//bo qua byte đầu tiên là byte nhận diện file hay folder
+	fseek(header, 1, SEEK_SET);
+	
 
 	char NumberOfType;
 	fread(&NumberOfType, sizeof(char), 1, header);

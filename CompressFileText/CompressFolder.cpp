@@ -9,9 +9,8 @@ string subFileName(string str)
 	string word = "";
 	for (auto x : str)
 	{
-		if (x == '/')
+		if (x == '\\')
 		{
-			cout << word << endl;
 			word = "";
 		}
 		else
@@ -19,6 +18,8 @@ string subFileName(string str)
 			word = word + x;
 		}
 	}
+
+	//Bo di duoi type
 	string newWord;
 	for (int i = 0; i < word.size(); i++)
 	{
@@ -36,15 +37,22 @@ string subFolderName(string folderName)
 	string word = "";
 	for (auto x : folderName)
 	{
-		if (x == '/')
+		if (x == '\\')
 		{
-			break;
+			word = "";
 		}
 		else
 		{
 			word = word + x;
 		}
 	}
+	string newWord; //Muc tieu la bo di cai link tap tin cuoi cung (/....)
+	/*int i = 0;
+	newWord[i] = word
+	while (newWord)
+	{
+
+	}*/
 	return word;
 }
 
@@ -92,20 +100,21 @@ long long getNumberOfFileAtIndex(FILE* in, int index, int posEnd)
 }
 
 
-void EncodeFolder()
+void EncodeFolder(string filename)
 {
 	char* FolderName;
+	cout << filename << endl;
+	vector<string> allName = GetAllNameFILE(FolderName , filename);
 
-	vector<string> allName = GetAllNameFILE(FolderName);
-
-	FolderName = ToCharArray(subFolderName(allName[0]));
-
-	FILE* fileCompresss = fopen("InputCompress.huf", "ab+");
-
+	FolderName = ToCharArray(subFolderName(filename));
+	cout << "FolderName : " << FolderName << endl;
+	FILE* fileCompresss = fopen("InputCompress.Ozip", "ab+");
+	fprintf(fileCompresss, "2");
 	//Ghi ra ten folder can nén , lưu lại dùng cho giải nén
 	fprintf(fileCompresss, "%s†", FolderName);
 	//Ghi ra so luong file tồn tại trong folder nén
 	fprintf(fileCompresss, "%d", allName.size());
+
 	fprintf(fileCompresss, "†");
 
 	fclose(fileCompresss);
@@ -114,15 +123,17 @@ void EncodeFolder()
 	for (int i = 0; i < allName.size(); i++)
 	{
 		//Write name filete
-		FILE* writeNametoFile = fopen("InputCompress.huf", "ab+");
+		FILE* writeNametoFile = fopen("InputCompress.Ozip", "ab+");
+		//Lưu lại tên file để nén ra thì trả lại
 		char* filename = ToCharArray(subFileName(allName[i]));
-		puts(filename);
+		cout << subFolderName(allName[i]) << endl;
 		fwrite(filename, sizeof(char), strlen(filename), writeNametoFile);
 		fwrite("†", 1, 1, writeNametoFile);
 		fclose(writeNametoFile);
+		//Sau khi ghi lại đầy đủ header thì bắt đầu mã hoá code
 		char* s = ToCharArray(allName[i]);
 		EncodeMultiFile(s);
-		FILE* fileCompresss = fopen("InputCompress.huf", "ab+");
+		FILE* fileCompresss = fopen("InputCompress.Ozip", "ab+");
 		fwrite("|||", 3, 1, fileCompresss);
 		fclose(fileCompresss);
 	}
@@ -150,7 +161,6 @@ void DecodeFolder(FILE* in, FILE* out, int vtLE)
 
 	fseek(in, curPos, SEEK_SET);
 
-	cout << "cur pos : " << curPos << endl;
 
 	HuffData data;
 	ReadHeaderFile(in, data);
@@ -255,11 +265,14 @@ void EncodeMultiFile(char* filename)
 		namefile += filename[i];
 	}
 
+	//Lấy ra type 
 	string DuoiFile;
 	int pos = namefile.find(".") + 1;
 	DuoiFile = namefile.substr(pos, namefile.size());
+
+	//Mở file ra đọc
 	FILE* file = fopen(filename, "rb+");
-	FILE* fileCompresss = fopen("InputCompress.huf", "ab+");
+	FILE* fileCompresss = fopen("InputCompress.Ozip", "ab+");
 	HuffData data;
 	if (DuoiFile == "exe")
 	{
@@ -303,28 +316,27 @@ vector<int> posStop(char* filename)
 
 
 //Export file ta chỉ cần đọc file cho tới khi gặp điểm quy ước thì dừng và xuất file đó ra , cứ như thế cho đến khi gặp điểm quy ước cuối cùng
-void ExportFolder()
+void ExportFolder(string namefolder)
 {
 
 #pragma region Lấy ra tên file và tìm những vị trí mà file kết thúc để dừng đọc đúng lúc.
 
-	string namefile;
-	cout << "Nhap ten tap tin can giai nen : ";
-	cin >> namefile;
-	vector<int> posEnd = posStop(ToCharArray(namefile + ".huf"));
+	
+	vector<int> posEnd = posStop(ToCharArray(namefolder));
 
 #pragma endregion
 
 	//Neu chi co duy nhat mot file tuc la size = 0;
 	if (posEnd.empty())
 	{
-		ExportFile(namefile);
+		ExportFile(namefolder);
 		return;
 	}
 
-	FILE* header = fopen(ToCharArray(namefile + ".huf"), "rb");
+	FILE* header = fopen(ToCharArray(namefolder), "rb");
 
-
+ 	//Bỏ qua byte nhận dạng file là byte đầu tiên
+	fseek(header, 1, SEEK_SET);
 
 #pragma region lấy ra tên folder cũ để tạo và ghi vào
 	string folderName;
@@ -356,12 +368,6 @@ void ExportFolder()
 
 
 
-	//Kiem tra xem day co phai la file duy nhat khong.
-	/*if (posEnd.empty())
-	{
-		ExportFile(namefile);
-		return;
-	}*/
 	int curpos = ftell(header);
 
 
@@ -386,7 +392,6 @@ void ExportFolder()
 
 
 		//Get type
-		cout << "LAN THU " << i << endl;
 		char NumberOfType;
 		fread(&NumberOfType, sizeof(char), 1, header);
 		int sz = int(NumberOfType - 48);

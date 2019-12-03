@@ -19,25 +19,16 @@ vector<string> get_all_files_names_within_folder(string folder)
 	return names;
 }
 
-vector<string> GetAllNameFILE(char*& FolderName)
+vector<string> GetAllNameFILE(char*& FolderName , string namefile)
 {
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind;
 
-	char s[100];
-	cout << "Nhap ten folder:";
-	gets_s(s);
-	s[strlen(s)] = '\0';
-
-	string LINK;
-	for (int i = 0; i < strlen(s); i++)
-	{
-		LINK += s[i];
-	}
+	string LINK = namefile;
 
 	vector<string> allName;
 
-	hFind = FindFirstFile(s, &FindFileData);
+	hFind = FindFirstFile(namefile.c_str(), &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
 	{
 		printf("Khong tim thay folder\n", GetLastError());
@@ -47,7 +38,6 @@ vector<string> GetAllNameFILE(char*& FolderName)
 	{
 		/*printf(TEXT("The first file found is %s\n"),
 			FindFileData.cFileName);*/
-
 		vector<string> s = get_all_files_names_within_folder(FindFileData.cFileName);
 		//cout << s.size() << endl;
 		for (int i = 0; i < s.size(); i++)
