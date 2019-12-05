@@ -72,6 +72,8 @@ int main()
 		}
 		else
 		{
+			clock_t begin = clock();
+
 			string filename;
 			//Tim duong link va nén
 			for (auto& p : paths)
@@ -81,7 +83,9 @@ int main()
 
 			EncodeFile(filename);
 			_fcloseall();
-
+			clock_t end = clock();
+			double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+			cout << "Thoi gian chay chuong trinh : " << time_spent << endl;
 			nana::msgbox box(u8"POPUP");
 			box << L"COMPRESS FILE COMPLETE";
 			box.show();

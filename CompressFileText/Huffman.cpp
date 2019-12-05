@@ -1,4 +1,5 @@
-﻿#include<iostream>
+﻿#include<thread>
+#include<iostream>
 #include<vector>
 #include<sstream>
 #include<fstream>
@@ -6,6 +7,12 @@
 #include<map>
 #include"Huffman.h"
 #include <iterator>
+#include <algorithm>
+#include <atomic>
+#include <future>
+#include <chrono>
+
+using namespace std::chrono_literals;
 using namespace std;
 NODE* newNode(char data, int freq)
 {
@@ -102,6 +109,18 @@ HuffData ReadFileText(FILE* p)
 
 }
 
+//đa luồng đếm file cho lẹ
+std::atomic<bool> is_done1{ false };
+std::atomic<bool> is_done2{ false };
+
+void CountFrequency(map<char, int>& chars, int a, int b, char* buffer)
+{
+	for (int k = a; k < b; k++)
+	{
+		chars[buffer[k]]++;
+	}
+}
+
 HuffData ReadFileBin(FILE* p)
 {
 	if (p == NULL)
@@ -123,34 +142,48 @@ HuffData ReadFileBin(FILE* p)
 
 	int size = NumberOfCharFile(p);
 
-
+	cout << "So byte : " << size << endl;
 
 	rewind(p);
 
 	char* Memory = new char[size];
 	fread(Memory, sizeof(char) , size, p);
 	Memory[size] = '\0';
-
+	
+	cout << "on" << endl;
 	map<char, int> chars;
-	for (int k = 0; k < strlen(Memory); k++) 
+
+	/*for (int k = 0; k < strlen(Memory); k++)
 	{
 		chars[Memory[k]]++;
-	}
-	int Count = 0;
-	for (map<char, int>::iterator it = chars.begin(); it != chars.end(); it++)
+	}*/
+
+	thread funcCount1(CountFrequency, std::ref(chars), 0, strlen(Memory) / 3, Memory);
+	funcCount1.join();
+	thread funcCount2(CountFrequency, std::ref(chars), strlen(Memory) / 3, strlen(Memory)*2/3, Memory);
+	funcCount2.join();
+	thread funcCount3(CountFrequency, std::ref(chars), strlen(Memory) * 2 / 3 / 2, strlen(Memory), Memory);
+	funcCount3.join();
+
+	if (funcCount1.joinable() == false && funcCount2.joinable() == false && funcCount3.joinable()==false)
 	{
-		haf.s[Count] = it->first;
-		haf.wei[Count] = it->second;
-		
+		int Count = 0;
+		for (map<char, int>::iterator it = chars.begin(); it != chars.end(); it++)
+		{
+			haf.s[Count] = it->first;
+			haf.wei[Count] = it->second;
+			Count++;
+		}
 
-		Count++;
+		haf.s[Count] = '\0';
+
+		return haf;
 	}
 
-	haf.s[Count] = '\0';
-	return haf;
+	
+	
 
 }
-
 
 
 //Read data file exe
@@ -202,7 +235,6 @@ HuffData ReadFileExe(FILE* p , char * filename)
 
 		Count++;
 	}
-
 
 	haf.s[Count] = '\0';
 	return haf;
@@ -301,6 +333,7 @@ HuffmanTree* CreateHeapHuffman(HuffData map, int size)
 	HuffmanTree* hufftree = InitHuffTree(size);
 	hufftree->size = size;
 
+
 	for (int i = 0; i < size; i++)
 	{
 		hufftree->Array[i] = newNode(map.s[i], map.wei[i]);
@@ -320,6 +353,7 @@ NODE* builfHuffmanTree(HuffData map, int size)
 	NODE* left, * right, * root;
 
 	HuffmanTree* hufftree = CreateHeapHuffman(map, size);
+
 
 	while (!isMinSize(hufftree))
 	{

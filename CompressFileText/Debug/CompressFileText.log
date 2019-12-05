@@ -1,2 +1,13 @@
-﻿  main.cpp
+﻿  Huffman.cpp
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(63,19): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(64,20): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(80,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(134,19): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(135,20): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(143,11): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(211,19): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(212,20): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(216,11): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(225,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\CompressFileText\Huffman.cpp(186): warning C4715: 'ReadFileBin': not all control paths return a value
   CompressFileText.vcxproj -> C:\Users\Admin\Desktop\CompressFolderAllFormat\Compress_Folder_All_Format\Debug\CompressFileText.exe

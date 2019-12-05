@@ -95,6 +95,28 @@ char* ToCharArray(string name)
 	return fileName;
 }
 //Lưu đống dữ liệu vào map
+
+int binarySearch(char arr[], int l, int r, char x) 
+{
+	if (r >= l) {
+		int mid = l + (r - l) / 2; // Tương đương (l+r)/2 nhưng ưu điểm tránh tràn số khi l,r lớn
+
+		// Nếu arr[mid] = x, trả về chỉ số và kết thúc.
+		if (arr[mid] == x)
+			return mid;
+
+		// Nếu arr[mid] > x, thực hiện tìm kiếm nửa trái của mảng
+		if (arr[mid] > x)
+			return binarySearch(arr, l, mid - 1, x);
+
+		// Nếu arr[mid] < x, thực hiện tìm kiếm nửa phải của mảng
+		return binarySearch(arr, mid + 1, r, x);
+	}
+
+	// Nếu không tìm thấy
+	return -1;
+}
+
 void HuffmanCompress(FILE *fileInput , FILE *fileOut , HuffMap &map , HuffData  data, int size , char*nameFile)
 {
 	// Construct Huffman Tree 
@@ -103,6 +125,7 @@ void HuffmanCompress(FILE *fileInput , FILE *fileOut , HuffMap &map , HuffData  
 	// the Huffman tree built above 
 	int arr[1000];
 	long long top = 0;
+
 	map.BitArray = new int* [size];
 
 	map.charater = new char[size];
@@ -137,6 +160,8 @@ void HuffmanCompress(FILE *fileInput , FILE *fileOut , HuffMap &map , HuffData  
 	long long countBit = 0;
 	long long sumBitOut = 0;
 	char bit8[9];
+
+	cout << "OK" << endl;
 
 	while (!feof(fileInput))
 	{
@@ -327,6 +352,7 @@ void ConvertToBinArray(FILE* in, int indexStart, int* a , long long &k , long lo
 			a[k] = s;
 			k++;
 		}
+
 		fread(&ch, sizeof(char), 1, in);
 
 		count++;
@@ -511,7 +537,6 @@ void EncodeFile(string linkFile)
 	{
 		data = ReadFileBin(file);
 	}
-	cout << "read complete" << endl;
 	HuffMap map;
 	int size = strlen(data.s);
 	HuffmanCompress(file, fileCompresss, map, data, size, ToCharArray(linkFile));
